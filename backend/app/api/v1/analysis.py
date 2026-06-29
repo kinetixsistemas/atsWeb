@@ -8,7 +8,7 @@ from app.services.cv_parser import validate_file_magic, extract_text_from_pdf
 from app.services.ai_service import analyze_cv_with_groq
 from app.api.dependencies import get_current_user, get_optional_user
 from app.core.config import settings
-from app.core.security import supabase
+from app.core.security import get_supabase
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -74,7 +74,7 @@ async def analyze_cv_file(
         )
 
     try:
-        supabase.table('analyses').insert({
+        get_supabase().table('analyses').insert({
             'user_id': user_id,
             'job_description': job_description,
             'job_title': job_title or '',
@@ -100,7 +100,7 @@ async def get_analysis_history(
     offset: int = 0,
 ):
     user_id = user.get('id', user.get('sub', ''))
-    response = supabase.table('analyses') \
+    response = get_supabase().table('analyses') \
         .select('*', count='exact') \
         .eq('user_id', user_id) \
         .order('created_at', desc=True) \
@@ -120,7 +120,7 @@ async def get_analysis_detail(
     user: dict = Depends(get_current_user),
 ):
     user_id = user.get('id', user.get('sub', ''))
-    response = supabase.table('analyses') \
+    response = get_supabase().table('analyses') \
         .select('*') \
         .eq('id', analysis_id) \
         .eq('user_id', user_id) \

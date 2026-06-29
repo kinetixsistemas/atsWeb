@@ -2,7 +2,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user_profile import UserProfileResponse, UserProfileUpdate
 from app.api.dependencies import get_current_user
-from app.core.security import supabase
+from app.core.security import get_supabase
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -13,14 +13,14 @@ async def get_my_profile(user: dict = Depends(get_current_user)):
     user_id = user.get('id', user.get('sub', ''))
     email = user.get('email', '')
 
-    response = supabase.table('user_profiles') \
+    response = get_supabase().table('user_profiles') \
         .select('*') \
         .eq('user_id', user_id) \
         .single() \
         .execute()
 
     if not response.data:
-        profile = supabase.table('user_profiles').insert({
+        profile = get_supabase().table('user_profiles').insert({
             'user_id': user_id,
         }).execute()
         if not profile.data:
@@ -47,7 +47,7 @@ async def update_my_profile(
 
     updates['updated_at'] = 'now()'
 
-    response = supabase.table('user_profiles') \
+    response = get_supabase().table('user_profiles') \
         .update(updates) \
         .eq('user_id', user_id) \
         .execute()

@@ -6,7 +6,7 @@ from app.schemas.cv_extraction import CvExtractionResponse, CvExtractionDB
 from app.services.cv_parser import validate_file_magic, extract_cv_data
 from app.api.dependencies import get_current_user, get_optional_user
 from app.core.config import settings
-from app.core.security import supabase
+from app.core.security import get_supabase
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -48,7 +48,7 @@ async def extract_cv_data_endpoint(
 
     try:
         storage_path = f"cvs/{user_id}/{safe_filename}"
-        supabase.storage.from_('cvs').upload(storage_path, file_content)
+        get_supabase().storage.from_('cvs').upload(storage_path, file_content)
     except Exception as e:
         logger.warning('Supabase Storage upload failed: %s', str(e))
 
@@ -62,7 +62,7 @@ async def extract_cv_data_endpoint(
         )
 
     try:
-        supabase.table('cv_extractions').insert({
+        get_supabase().table('cv_extractions').insert({
             'user_id': user_id,
             'cv_filename': file.filename,
             'storage_path': storage_path,
@@ -89,7 +89,7 @@ async def get_extraction_history(
     offset: int = 0,
 ):
     user_id = user.get('id', user.get('sub', ''))
-    response = supabase.table('cv_extractions') \
+    response = get_supabase().table('cv_extractions') \
         .select('*', count='exact') \
         .eq('user_id', user_id) \
         .order('created_at', desc=True) \

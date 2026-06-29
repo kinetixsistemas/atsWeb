@@ -2,7 +2,7 @@ import logging
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from supabase import Client
-from app.core.security import supabase
+from app.core.security import get_supabase
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ async def get_current_user(
             detail="Not authenticated"
         )
     try:
-        user = supabase.auth.get_user(credentials.credentials)
+        user = get_supabase().auth.get_user(credentials.credentials)
         return user.user
     except Exception as e:
         logger.warning("Auth failed: %s", str(e))
@@ -34,7 +34,7 @@ async def get_optional_user(
     if credentials is None:
         return None
     try:
-        user = supabase.auth.get_user(credentials.credentials)
+        user = get_supabase().auth.get_user(credentials.credentials)
         return user.user
     except Exception:
         return None

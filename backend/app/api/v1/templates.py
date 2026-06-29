@@ -1,7 +1,7 @@
 import logging
 from fastapi import APIRouter, HTTPException, status
 from app.schemas.template import TemplateResponse
-from app.core.security import supabase
+from app.core.security import get_supabase
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.get('/templates', response_model=list[TemplateResponse])
 async def list_templates():
-    response = supabase.table('templates') \
+    response = get_supabase().table('templates') \
         .select('*') \
         .order('popular', desc=True) \
         .execute()
@@ -19,7 +19,7 @@ async def list_templates():
 
 @router.get('/templates/{template_id}', response_model=TemplateResponse)
 async def get_template(template_id: str):
-    response = supabase.table('templates') \
+    response = get_supabase().table('templates') \
         .select('*') \
         .eq('id', template_id) \
         .single() \
