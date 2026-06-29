@@ -2,7 +2,9 @@
     "services": {
         "frontend": {
             "root": "frontend",
-            "framework": "angular"
+            "framework": "angular",
+            "buildCommand": "npm run build",
+            "outputDirectory": "dist/frontend"
         },
         "backend": {
             "root": "backend",
