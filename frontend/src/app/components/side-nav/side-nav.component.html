@@ -1,0 +1,38 @@
+<!-- SideNavBar -->
+<aside
+  class="w-64 fixed h-full left-0 top-0 bg-surface-container border-r border-outline-variant flex flex-col py-xl z-50">
+  <div class="px-lg mb-xl">
+    <h1 class="font-headline-md text-headline-md font-bold text-primary">ATS Optimizer</h1>
+    <p class="font-body-md text-sm text-on-surface-variant">High Performance Mode</p>
+  </div>
+  <nav class="flex-1 space-y-xs">
+    @for (item of navItems(); track item.label) {
+    <a [routerLink]="item.route"
+       #rla="routerLinkActive"
+       routerLinkActive
+       [routerLinkActiveOptions]="{ exact: true }"
+       [class]="rla.isActive 
+         ? 'flex items-center gap-md bg-primary-container/10 text-primary border-r-4 border-primary px-lg py-md transition-all duration-200' 
+         : 'flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-bright px-lg py-md transition-colors duration-200 active:scale-95'">
+      <span class="material-symbols-outlined">{{ item.icon }}</span>
+      <span class="font-body-md text-body-md">{{ item.label }}</span>
+    </a>
+    }
+  </nav>
+  <div class="mt-auto px-lg pt-lg border-t border-outline-variant">
+    <div class="flex items-center justify-between gap-md">
+      <div class="flex items-center gap-md">
+        <img alt="User Profile Avatar" class="w-10 h-10 rounded-full border border-outline-variant"
+          data-alt="A professional headshot of a corporate executive in a dark navy suit against a soft-focus office background. The lighting is crisp and professional, using a corporate high-contrast style. The overall mood is confident and sophisticated, aligning with a high-performance tech ecosystem."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf7lpS0GBZLhUV6p9XObBpfN8U_ncdOcgxI0FPiISnbmYTCIYf_9cSfKCh2P40kMTvW_ahxiReO9RaYX4WZXDRytlb4fxkpl5rU2CN1rC7h_LCgPmhHOICG3DqlpEyZQN2AsawD4CqCfjG23JJmjD_QySlmgd1kjCrEwdRnJWlZZtHOhSDavMgjJnEJvOhvTzDy7XADnWit-JgV0SeaMJotSQXao3KB02SWFdkqNAKKhJnua6ST_ujOitYQCIcnGsdZIRpk7z1jO0" />
+        <div>
+          <p class="font-label-md text-label-md text-on-surface">Alex Rivera</p>
+          <p class="text-xs text-on-surface-variant">Pro Tier Account</p>
+        </div>
+      </div>
+      <button (click)="logout()" class="text-on-surface-variant hover:text-error transition-colors p-xs rounded-lg cursor-pointer" title="Cerrar sesión">
+        <span class="material-symbols-outlined">logout</span>
+      </button>
+    </div>
+  </div>
+</aside>

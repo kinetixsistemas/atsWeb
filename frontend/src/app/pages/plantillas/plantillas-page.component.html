@@ -1,0 +1,151 @@
+<div class="bg-background text-on-surface min-h-screen">
+  <app-side-nav></app-side-nav>
+  <div class="ml-64 min-h-screen relative">
+    <header class="fixed top-0 right-0 left-64 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
+      <div class="flex items-center flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input (input)="onSearch($event)" class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-12 pr-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" placeholder="Buscar plantillas..." type="text" />
+        </div>
+      </div>
+      <div class="flex items-center gap-lg">
+        <button class="relative text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+        </button>
+        <button class="text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">help</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="pt-24 px-lg pb-xl max-w-[1400px] mx-auto">
+      <section class="mb-xl relative overflow-hidden p-xl rounded-xl bg-surface-container-low border border-outline-variant">
+        <div class="absolute top-0 left-0 w-full h-full glow-overlay pointer-events-none"></div>
+        <div class="relative z-10">
+          <h2 class="font-headline-lg text-headline-lg text-primary mb-xs">Plantillas de CV Optimizadas</h2>
+          <p class="font-body-lg text-on-surface-variant max-w-2xl">Selecciona una plantilla diseñada para maximizar tu puntuación ATS. Todas nuestras plantillas siguen las mejores prácticas de formato y estructura para sistemas de tracking.</p>
+        </div>
+      </section>
+
+      @if (popularTemplates().length > 0) {
+      <section class="mb-xl">
+        <h3 class="font-headline-md text-on-surface flex items-center gap-sm mb-md">
+          <span class="material-symbols-outlined text-secondary">local_fire_department</span>
+          Plantillas Populares
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+          @for (template of popularTemplates(); track template.id) {
+          <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden group hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+            <div class="h-48 bg-surface-dim relative overflow-hidden flex items-center justify-center" [style.background]="'linear-gradient(135deg, ' + template.color_scheme[0] + ', ' + template.color_scheme[1] + ')'">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-32 h-44 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 flex flex-col p-sm gap-1">
+                  <div class="h-3 w-20 bg-white/20 rounded"></div>
+                  <div class="h-2 w-16 bg-white/20 rounded mt-1"></div>
+                  <div class="h-2 w-24 bg-white/20 rounded mt-2"></div>
+                  <div class="h-2 w-20 bg-white/20 rounded"></div>
+                  <div class="h-2 w-22 bg-white/20 rounded"></div>
+                  <div class="h-2 w-18 bg-white/20 rounded mt-2"></div>
+                  <div class="h-2 w-24 bg-white/20 rounded"></div>
+                  <div class="h-2 w-20 bg-white/20 rounded"></div>
+                </div>
+              </div>
+              <div class="absolute top-2 right-2">
+                <span class="px-sm py-0.5 bg-secondary/90 text-on-secondary text-xs rounded-full font-bold">ATS Ready</span>
+              </div>
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                <button (click)="onUseTemplate(template)" class="opacity-0 group-hover:opacity-100 transition-opacity px-lg py-sm bg-primary text-on-primary rounded-lg font-label-md shadow-lg hover:bg-primary/90">
+                  Usar Plantilla
+                </button>
+              </div>
+            </div>
+            <div class="p-lg">
+              <div class="flex items-center justify-between mb-xs">
+                <h4 class="font-headline-md text-on-surface">{{ template.name }}</h4>
+                @if (template.ats_optimized) {
+                <span class="text-xs text-success flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-xs">check_circle</span>
+                  ATS
+                </span>
+                }
+              </div>
+              <p class="text-sm text-on-surface-variant line-clamp-2">{{ template.description }}</p>
+              <div class="flex items-center gap-sm mt-md">
+                <span class="text-xs text-on-surface-variant bg-surface-variant px-sm py-0.5 rounded-full capitalize">{{ template.category }}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+      </section>
+      }
+
+      <section class="mb-lg">
+        <div class="flex items-center gap-md overflow-x-auto pb-sm">
+          @for (cat of categories(); track cat.id) {
+          <button (click)="setCategory(cat.id)" class="flex items-center gap-sm px-lg py-sm rounded-lg font-label-md transition-all whitespace-nowrap" [ngClass]="selectedCategory() === cat.id ? 'bg-primary text-on-primary shadow-sm' : 'bg-surface-variant text-on-surface-variant hover:bg-surface-bright hover:text-on-surface'">
+            <span class="material-symbols-outlined text-sm">{{ cat.icon }}</span>
+            {{ cat.label }}
+          </button>
+          }
+        </div>
+      </section>
+
+      <section>
+        @if (filteredTemplates().length > 0) {
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+          @for (template of filteredTemplates(); track template.id) {
+          <div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden group hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
+            <div class="h-48 bg-surface-dim relative overflow-hidden flex items-center justify-center" [style.background]="'linear-gradient(135deg, ' + template.color_scheme[0] + ', ' + template.color_scheme[1] + ')'">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-32 h-44 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 flex flex-col p-sm gap-1">
+                  <div class="h-3 w-20 bg-white/20 rounded"></div>
+                  <div class="h-2 w-16 bg-white/20 rounded mt-1"></div>
+                  <div class="h-2 w-24 bg-white/20 rounded mt-2"></div>
+                  <div class="h-2 w-20 bg-white/20 rounded"></div>
+                  <div class="h-2 w-22 bg-white/20 rounded"></div>
+                  <div class="h-2 w-18 bg-white/20 rounded mt-2"></div>
+                  <div class="h-2 w-24 bg-white/20 rounded"></div>
+                  <div class="h-2 w-20 bg-white/20 rounded"></div>
+                </div>
+              </div>
+              @if (template.ats_optimized) {
+              <div class="absolute top-2 right-2">
+                <span class="px-sm py-0.5 bg-secondary/90 text-on-secondary text-xs rounded-full font-bold">ATS Ready</span>
+              </div>
+              }
+              <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                <button (click)="onUseTemplate(template)" class="opacity-0 group-hover:opacity-100 transition-opacity px-lg py-sm bg-primary text-on-primary rounded-lg font-label-md shadow-lg hover:bg-primary/90">
+                  Usar Plantilla
+                </button>
+              </div>
+            </div>
+            <div class="p-lg">
+              <div class="flex items-center justify-between mb-xs">
+                <h4 class="font-headline-md text-on-surface">{{ template.name }}</h4>
+                @if (template.ats_optimized) {
+                <span class="text-xs text-success flex items-center gap-0.5">
+                  <span class="material-symbols-outlined text-xs">check_circle</span>
+                  ATS
+                </span>
+                }
+              </div>
+              <p class="text-sm text-on-surface-variant line-clamp-2">{{ template.description }}</p>
+              <div class="flex items-center gap-sm mt-md">
+                <span class="text-xs text-on-surface-variant bg-surface-variant px-sm py-0.5 rounded-full capitalize">{{ template.category }}</span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        } @else {
+        <div class="text-center py-32 bg-surface-container rounded-xl border border-outline-variant">
+          <span class="material-symbols-outlined text-6xl text-on-surface-variant/30">search_off</span>
+          <h3 class="font-headline-md text-on-surface mt-md">Sin resultados</h3>
+          <p class="text-sm text-on-surface-variant mt-xs">No encontramos plantillas que coincidan con tu búsqueda.</p>
+        </div>
+        }
+      </section>
+    </div>
+  </div>
+</div>

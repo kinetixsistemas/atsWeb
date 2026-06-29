@@ -1,0 +1,29 @@
+ .material-symbols-outlined {
+     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+ }
+
+ .glow-effect {
+     position: absolute;
+     width: 400px;
+     height: 400px;
+     background: radial-gradient(circle, rgba(192, 193, 255, 0.15) 0%, rgba(11, 19, 38, 0) 70%);
+     border-radius: 100%;
+     pointer-events: none;
+     z-index: 0;
+     will-change: transform;
+     /* Optimización de hardware para animaciones fluidas */
+     transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1);
+ }
+
+ .glass-card {
+     background: rgba(23, 31, 51, 0.6);
+     backdrop-filter: blur(12px);
+     -webkit-backdrop-filter: blur(12px);
+     border: 1px solid rgba(70, 70, 79, 0.3);
+ }
+
+ /* Interacción de elevación limpia para el bento grid usando utilidades CSS nativas */
+ .glass-card:hover {
+     border-color: rgba(192, 193, 255, 0.3);
+     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+ }

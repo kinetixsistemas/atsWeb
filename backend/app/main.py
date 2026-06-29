@@ -1,140 +1,92 @@
 import os
-import io
-import shutil
-from fastapi import FastAPI, HTTPException, status, UploadFile, File, Form
+import sys
+import time
+import logging
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field
-from groq import Groq
-from dotenv import load_dotenv
-from pypdf import PdfReader
+from fastapi.responses import JSONResponse
 
-load_dotenv()
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from app.core.config import settings
+from app.api.v1.analysis import router as analysis_router
+from app.api.v1.cv_extractions import router as cv_extractions_router
+from app.api.v1.templates import router as templates_router
+from app.api.v1.subscriptions import router as subscriptions_router
+from app.api.v1.users import router as users_router
+
+logging.basicConfig(
+    level=logging.INFO if settings.debug else logging.WARNING,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+_rate_limit_store: dict[str, list[float]] = {}
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info('Starting %s v%s', settings.app_name, settings.version)
+    _rate_limit_store.clear()
+    os.makedirs(settings.upload_dir, exist_ok=True)
+    yield
+    logger.info('Shutting down')
+
 
 app = FastAPI(
-    title="ATS Personal API", 
-    description="ATS Personal API con soporte para archivos locales",
-    version="1.0.0"
+    title=settings.app_name,
+    description='ATS Personal API con Supabase',
+    version=settings.version,
+    lifespan=lifespan,
 )
-
-# Directorio local para guardar los archivos
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-
-# Configuración de Orígenes Permitidos (CORS)
-origins = [
-    "http://localhost:4200",    
-]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
-    allow_methods=["*"], 
-    allow_headers=["*"], 
+    allow_methods=['*'],
+    allow_headers=['*'],
 )
 
-# Inicializar cliente Groq
-groq_api_key = os.getenv('GROQ_API_KEY')
-if not groq_api_key:
-    raise HTTPException(
-        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail="Error interno del servidor: Falta la variable de entorno GROQ_API_KEY"
-    )
 
-client = Groq(api_key=groq_api_key)
+@app.middleware('http')
+async def rate_limit_middleware(request: Request, call_next):
+    if not request.url.path.startswith('/api/'):
+        return await call_next(request)
 
-# Modelos de validación de datos
-class AnalysisRequest(BaseModel):
-    job_description: str = Field(..., min_length=10, max_length=4000)
-    cv_text: str = Field(default="CV Adonis Dller. Desarrollador Full-Stack enfocado en Next.js...")
+    client_ip = request.client.host if request.client else 'unknown'
+    now = time.time()
 
-class AnalysisResponse(BaseModel):
-    match_percentage: int
-    missing_skills: list[str]  # Unificado
-    strengths: list[str]
-    recommendations: str
+    if client_ip not in _rate_limit_store:
+        _rate_limit_store[client_ip] = []
 
+    _rate_limit_store[client_ip] = [
+        t for t in _rate_limit_store[client_ip] if now - t < 60
+    ]
 
-
-# Endpoint 1: Análisis por Archivo Físico (Guardando copia local)
-@app.post('/api/v1/analyze-file', response_model=AnalysisResponse)
-async def analyze_cv_file(
-    job_description: str = Form(...),
-    file: UploadFile = File(...)
-):
-    try:
-        # 1. Validar extensión del archivo
-        if not file.filename.lower().endswith(('.pdf', '.doc', '.docx')):
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Formato de archivo no soportado. Sube un PDF o DOCX."
-            )
-
-        # 2. Leer los bytes del archivo
-        file_content = await file.read()
-
-        # 📌 3. GUARDAR EN LOCAL (Tu requerimiento actual)
-        # Creamos una ruta segura dentro de la carpeta 'uploads' con el nombre original del archivo
-        local_file_path = os.path.join(UPLOAD_DIR, file.filename)
-        with open(local_file_path, "wb") as buffer:
-            buffer.write(file_content)
-
-        # 4. Extraer texto del PDF desde la memoria (para mantener velocidad de análisis)
-        cv_text = ""
-        if file.filename.lower().endswith('.pdf'):
-            pdf_reader = PdfReader(io.BytesIO(file_content))
-            for page in pdf_reader.pages:
-                page_text = page.extract_text()
-                if page_text:
-                    cv_text += page_text + "\n"
-        else:
-            # Fallback temporal para archivos de Word
-            cv_text = "Texto extraído de archivo DOCX en fase de desarrollo."
-
-        # Validar que la extracción no quedó vacía (ej. PDFs escaneados como imagen)
-        if not cv_text.strip():
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="No se pudo extraer texto del archivo. Asegúrate de que no sea una imagen escaneada."
-            )
-
-        # 5. Configurar Prompts para Groq
-        system_prompt = (
-            'Eres un Analista Senior de Recursos Humanos y un experto en ATS (Applicant Tracking System).\n'
-            'Tu objetivo es analizar el CV de un candidato junto con la descripción de una vacante y proporcionar un informe detallado.\n'
-            'DEBES responder EXCLUSIVAMENTE en formato JSON válido que coincida exactamente con la siguiente estructura:\n'
-            '{\n'
-            '  "match_percentage": un entero de 0 a 100,\n'
-            '  "missing_skills": [lista de tecnologías o habilidades que faltan en el CV],\n'
-            '  "strengths": [lista de puntos fuertes donde el candidato encaja perfectamente],\n'
-            '  "recommendations": "consejo con 4 puntos que mejorar en formato de lista   y directo para optimizar el perfil"\n'
-            '  "recommendations": "describe como mejorar sus experiencias para ajustar las necesidades de la empresa"\n'
-            '}\n'
-            'No saludes, no des explicaciones fuera del JSON, sé extremadamente objetivo.'
-        )
-        
-        user_content = f"OFERTA DE TRABAJO:\n{job_description}\n\nCURRÍCULUM DEL CANDIDATO:\n{cv_text}"
-
-       # 6. Llamada a Groq corregida con el nuevo modelo
-        completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile", 
-            messages=[
-                {'role': 'system', 'content': system_prompt},
-                {'role': 'user', 'content': user_content}
-            ],
-            temperature=0.2,
-            response_format={'type': 'json_object'}
+    if len(_rate_limit_store[client_ip]) >= settings.rate_limit_per_minute:
+        logger.warning('Rate limit exceeded for %s', client_ip)
+        return JSONResponse(
+            status_code=429,
+            content={'detail': 'Demasiadas solicitudes. Intenta de nuevo en un minuto.'}
         )
 
-        raw_json_response = completion.choices[0].message.content
-        return AnalysisResponse.model_validate_json(raw_json_response)
+    _rate_limit_store[client_ip].append(now)
+    return await call_next(request)
 
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error al procesar el archivo: {str(e)}"
-        )
 
-if __name__ == "__main__":
+app.include_router(analysis_router, prefix='/api/v1')
+app.include_router(cv_extractions_router, prefix='/api/v1/cv-extractions')
+app.include_router(templates_router, prefix='/api/v1')
+app.include_router(subscriptions_router, prefix='/api/v1')
+app.include_router(users_router, prefix='/api/v1')
+
+
+@app.get('/health')
+async def health():
+    return {'status': 'healthy', 'version': settings.version}
+
+
+if __name__ == '__main__':
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run('app.main:app', host='0.0.0.0', port=8000, reload=False)

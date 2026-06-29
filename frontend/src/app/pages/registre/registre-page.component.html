@@ -1,0 +1,204 @@
+<div class="min-h-screen flex flex-col">
+    <div class="flex-grow pt-8 flex items-stretch overflow-hidden relative">
+
+        <!-- Background Atmospheric Effect -->
+        <div class="absolute inset-0 kinetic-glow pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 w-full max-w-container-max mx-auto px-gutter gap-xl py-xl">
+
+            <!-- Left Side: Value Propositions & Visual -->
+            <section class="hidden lg:flex flex-col justify-center space-y-xl pr-xl">
+                <div class="space-y-md ">
+                    <h2 class="font-display text-display text-primary leading-tight">
+                        Optimización con IA de Alto Rendimiento.
+                    </h2>
+
+                    <p class="font-body-lg text-body-lg text-on-surface-variant max-w-l">
+                        Únete a la nueva generación de
+                        profesionales que superan los filtros ATS con precisión técnica.</p>
+                </div>
+
+                <div class="grid gap-lg">
+                    <div
+                        class="flex items-start gap-md group p-md rounded-xl hover:bg-surface-container-low transition-colors">
+                        <div class="bg-primary-container/20 p-sm rounded-lg">
+                            <span class="material-symbols-outlined text-primary">groups</span>
+                        </div>
+                        <div>
+                            <h4 class="font-label-md text-label-md text-on-surface">Join 10,000+ professionals</h4>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant">Comunidad global de
+                                ingenieros, diseñadores y gestores.</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-start gap-md group p-md rounded-xl hover:bg-surface-container-low transition-colors">
+                        <div class="bg-secondary-container/20 p-sm rounded-lg">
+                            <span class="material-symbols-outlined text-secondary">description</span>
+                        </div>
+                        <div>
+                            <h4 class="font-label-md text-label-md text-on-surface">ATS-optimized templates</h4>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant">Plantillas validadas por
+                                algoritmos de reclutamiento modernos.</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="flex items-start gap-md group p-md rounded-xl hover:bg-surface-container-low transition-colors">
+                        <div class="bg-tertiary-container/20 p-sm rounded-lg">
+                            <span class="material-symbols-outlined text-tertiary">bolt</span>
+                        </div>
+                        <div>
+                            <h4 class="font-label-md text-label-md text-on-surface">Análisis en Tiempo Real</h4>
+                            <p class="font-label-sm text-label-sm text-on-surface-variant">Feedback instantáneo sobre la
+                                compatibilidad de tu perfil.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative h-64 w-full rounded-xl overflow-hidden border border-outline-variant/30">
+                    <img alt="Professional Workspace" class="w-full h-full object-cover"
+                        data-alt="A high-tech dashboard interface displayed on a sleek monitor in a dimly lit, professional office environment. The screen shows complex data visualizations, heatmaps, and progress metrics in shades of indigo and teal. Soft cyan and purple light glows from the peripherals, creating a sophisticated 'Expert Tools' aesthetic with sharp, structured layouts."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSrRkhkEcaSHHVgnSKf6p-7M1d6p4JFMOMNGTxMvMWPhXoIy3GaBUHUzQxBwAJRHGNlSaZjiuiWUSXibfvekZVCXL9swIP0b-uKptZOcMNr9yM_O430yPGt7EfBxggBy87cVHGSNJrK_0LFC6VTZQVCrfj9JlpT9L3v8DiqrCd7tMhJP1VmCaGm_zm63aaHZx2-EMWDcwra1hgOM65SGjTX0pZhHpaHt5Xen-CIOiB7PaxayzlSWgzTGcTxc9CGU-ZHiXI49ggOqI">
+                    <div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+                </div>
+            </section>
+
+            <!-- Right Side: Registration Form -->
+            <section class="flex items-center justify-center">
+
+                <div
+                    class="glass-card w-full max-w-l p-xl rounded-xl border border-outline-variant/30 shadow-2xl relative overflow-hidden">
+
+                    <!-- Internal Glow -->
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 blur-[100px] rounded-full"></div>
+                    <div class="relative z-10 space-y-lg">
+                        <div class="space-y-sm">
+                            <h1 class="font-headline-lg text-headline-lg text-on-surface">Crea tu cuenta profesional
+                            </h1>
+                            <p class="font-body-md text-body-md text-on-surface-variant">Empieza a optimizar tu CV hoy
+                                mismo</p>
+                        </div>
+
+                        <!-- Social Logins -->
+                        <div class="grid grid-cols-1 gap-md">
+                            <button (click)="onGoogleLogin()"
+                                class="flex items-center justify-center gap-md w-full py-md px-lg bg-surface-container-highest border border-outline-variant text-on-surface font-label-md text-label-md rounded-xl hover:bg-surface-bright transition-all active:scale-95">
+                                <img alt="Google" class="w-5 h-5 grayscale opacity-80"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuALyLPaMw4KIJVPfDI1JGd5EmBeAssv_ks0hVoAESlwhxYzTH6KLLo2YjptApikXKlyfN-KAhNWzwAfdIynhgnv9Hym_YIRnCXgLU6bQFQpqmw0zOn6xvSB_5EUzZCyAKTM-padcBFeszRQehgU50u3_QFOMTUbWp-lmkQsctZKQzyorEnBrY-rDjhasKmDGM_OM5RxjrNSAQEOZrbCJ4bo1z5duQy7qEe_ibNCos2J4OEvblK8tx2UzcStnO0ZAPCWTSO6WjsmXNo">
+                                Registrarse con Google
+                            </button>
+                            <button
+                                class="flex items-center justify-center gap-md w-full py-md px-lg bg-surface-container-highest border border-outline-variant text-on-surface font-label-md text-label-md rounded-xl hover:bg-surface-bright transition-all active:scale-95">
+                                <svg class="w-5 h-5 fill-on-surface opacity-80" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z">
+                                    </path>
+                                </svg>
+                                Registrarse con LinkedIn
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="flex items-center gap-md py-sm">
+                            <div class="flex-grow h-[1px] bg-outline-variant/30"></div>
+                            <span class="font-label-sm text-label-sm text-outline">O regístrate con tu correo</span>
+                            <div class="flex-grow h-[1px] bg-outline-variant/30"></div>
+                        </div>
+
+                        <!-- Form -->
+                        <form class="space-y-md" (ngSubmit)="onRegisterSubmit()">
+                            @if (error) {
+                            <div class="bg-error/10 border border-error/20 rounded-xl p-md text-error text-sm flex items-center gap-sm">
+                              <span class="material-symbols-outlined">error</span>
+                              {{ error }}
+                            </div>
+                            }
+                            <div class="space-y-sm">
+                                <label class="font-label-sm text-label-sm text-on-surface-variant block ml-1"
+                                    for="name">Nombre Completo</label>
+                                <div
+                                    class="relative input-focus-ring rounded-xl border border-outline-variant bg-surface-container-lowest transition-all">
+<input
+        class="w-full bg-transparent border-none text-on-surface px-md py-md font-body-md focus:ring-0 outline-none"
+        id="name" [(ngModel)]="name" name="name" placeholder="John Doe" type="text">
+                                </div>
+                            </div>
+                            <div class="space-y-sm">
+                                <label class="font-label-sm text-label-sm text-on-surface-variant block ml-1"
+                                    for="email">Correo Electrónico</label>
+                                <div
+                                    class="relative input-focus-ring rounded-xl border border-outline-variant bg-surface-container-lowest transition-all">
+<input
+        class="w-full bg-transparent border-none text-on-surface px-md py-md font-body-md focus:ring-0 outline-none"
+        id="email" [(ngModel)]="email" name="email" placeholder="email@profesional.com" type="email">
+                                </div>
+                            </div>
+                            <div class="space-y-sm">
+                                <label class="font-label-sm text-label-sm text-on-surface-variant block ml-1"
+                                    for="password">Contraseña</label>
+                                <div
+                                    class="relative input-focus-ring rounded-xl border border-outline-variant bg-surface-container-lowest transition-all">
+                                    <input #passwordInput
+                                        class="w-full bg-transparent border-none text-on-surface px-md py-md font-body-md focus:ring-0 outline-none"
+                                        id="password" [(ngModel)]="password" name="password" (input)="onPasswordChange(passwordInput.value)"
+                                        placeholder="••••••••" type="password">
+                                </div>
+
+                                <!-- Password Strength Indicator -->
+                                <div class="flex gap-xs mt-sm px-1">
+                                    <div class="h-1 flex-grow rounded-full transition-colors"
+                                        [ngClass]="passwordScore() >= 1 ? strengthColor() : 'bg-outline-variant'"
+                                        id="strength-1">
+                                    </div>
+                                    <div class="h-1 flex-grow rounded-full transition-colors"
+                                        [ngClass]="passwordScore() >= 2 ? strengthColor() : 'bg-outline-variant'"
+                                        id="strength-2">
+                                    </div>
+                                    <div class="h-1 flex-grow rounded-full transition-colors"
+                                        [ngClass]="passwordScore() >= 3 ? strengthColor() : 'bg-outline-variant'"
+                                        id="strength-3">
+                                    </div>
+                                    <div class="h-1 flex-grow rounded-full transition-colors"
+                                        [ngClass]="passwordScore() >= 4 ? strengthColor() : 'bg-outline-variant'"
+                                        id="strength-4">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-md py-sm">
+                                <input
+                                    class="mt-1 rounded bg-surface-container-lowest border-outline-variant text-primary focus:ring-primary/50"
+                                    id="terms" type="checkbox">
+                                <label class="font-label-sm text-label-sm text-on-surface-variant leading-tight"
+                                    for="terms">
+                                    Acepto los <a class="text-primary hover:underline" routerLink="/terms">Términos de Servicio</a>
+                                    y la <a class="text-primary hover:underline" routerLink="/privacy">Política de Privacidad</a> de
+                                    PrecisionATS.
+                                </label>
+                            </div>
+
+                            <button
+                                class="w-full py-md bg-primary text-on-primary font-headline-md text-headline-md rounded-xl hover:shadow-[0_0_20px_rgba(192,193,255,0.3)] hover:opacity-95 active:scale-[0.98] transition-all relative overflow-hidden group disabled:opacity-50"
+                                type="submit" [disabled]="loading">
+                                <span class="relative z-10">{{ loading ? 'Creando cuenta...' : 'Crear Cuenta' }}</span>
+                                <div
+                                    class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                </div>
+                            </button>
+
+                        </form>
+
+                        <div class="text-center pt-md">
+                            <p class="font-label-md text-label-md text-on-surface-variant">
+                                ¿Ya tienes cuenta? <a class="text-primary font-bold hover:underline" routerLink="/login">Iniciar
+                                    sesión</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>

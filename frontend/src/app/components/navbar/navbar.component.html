@@ -1,0 +1,32 @@
+@if (showNavbar()) {
+<!-- Header principal -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/30 bg-background/80 backdrop-blur-md">
+    <div class="flex justify-between items-center h-16 px-gutter max-w-container-max mx-auto">
+        <div class="flex items-center gap-md">
+            <a routerLink="/"
+                class="font-display text-primary dark:text-primary-fixed tracking-tight text-[24px] ml-[50px] cursor-pointer hover:opacity-90">PrecisionATS</a>
+            <nav class="hidden md:flex items-center gap-lg ml-xl">
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                    (click)="irASeccion('hero')">Características
+                </a>
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                    (click)="irASeccion('plantillas')">Plantillas
+                </a>
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                    (click)="irASeccion('comoFunciona')">Cómo funciona
+                </a>
+                <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 cursor-pointer"
+                    (click)="irASeccion('prices')">Precios
+                </a>
+
+            </nav>
+        </div>
+        <div
+            class=" cursor-pointer bg-primary rounded-xl p-3 hover:translate-y-0.5 px-md py-sm hover:shadow-lg mr-[50px] transition-transform">
+            <a routerLink="/login" class=" font-label-md text-label-md text-on-primary text-[15px] ">
+                Iniciar Sesión
+            </a>
+        </div>
+    </div>
+</header>
+}

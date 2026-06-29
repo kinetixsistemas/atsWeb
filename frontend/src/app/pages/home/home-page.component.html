@@ -1,0 +1,330 @@
+<main class="pt-16">
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative min-h-[660px] flex items-center overflow-hidden px-gutter">
+        <!-- Luces de Fondo vinculadas al TS -->
+        <div #glowTop class="glow-effect top-[-100px] right-[-50px]"></div>
+        <div #glowBottom class="glow-effect bottom-[-100px] left-[-100px]"></div>
+        <app-three-background></app-three-background>
+
+        <div class="max-w-container-max mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-xl relative z-10">
+
+            <div class="md:col-span-7 flex flex-col justify-center items-start space-y-lg ">
+                <div
+                    class="inline-flex items-center gap-sm px-md py-xs rounded-full border border-primary/20 bg-primary/5 text-primary-fixed-dim">
+                    <span class="material-symbols-outlined text-[18px]">verified_user</span>
+                    <span class="font-label-sm text-label-sm uppercase tracking-widest">Optimización de IA v4.2</span>
+                </div>
+
+                <h1 class="font-display text-on-surface md:text-[64px] leading-none max-w-2xl">
+                    Optimiza tu CV para el éxito impulsado por IA
+                </h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-l ">
+                    Supera los filtros ATS y destaca ante los reclutadores con nuestro motor de análisis de precisión.
+                    No dejes que un algoritmo decida tu futuro profesional.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-md w-full sm:w-auto pt-md">
+                    <a routerLink="/register"
+                        class="bg-primary text-on-primary font-label-md text-label-md px-xl py-lg rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-sm shadow-xl cursor-pointer">
+                        Empieza Gratis
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                    <a routerLink="/dashboard"
+                        class="border border-outline-variant text-on-surface font-label-md text-label-md px-xl py-lg rounded-xl hover:bg-surface-variant transition-all flex items-center justify-center gap-sm cursor-pointer">
+                        <span class="material-symbols-outlined">play_circle</span>
+                        Ver Demo
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Interactiva del Score -->
+            <div class="md:col-span-5 relative hidden md:block">
+                <div class="glass-card p-lg rounded-xl shadow-2xl relative overflow-hidden group">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 group-hover:opacity-80 transition-opacity">
+                    </div>
+                    <div class="relative space-y-md">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-sm">
+                                <div class="w-3 h-3 rounded-full bg-error"></div>
+                                <div class="w-3 h-3 rounded-full bg-secondary"></div>
+                                <div class="w-3 h-3 rounded-full bg-primary"></div>
+                            </div>
+                            <span class="font-code text-label-sm text-outline">resume_v1.pdf</span>
+                        </div>
+                        <div class="h-[300px] w-full rounded border border-outline-variant/30 overflow-hidden relative">
+                            <img alt="Resume Analysis UI" class="w-full h-full object-cover grayscale opacity-60"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhVbwOPeb5upCKm2hQY4Z5kuaY27IDD0nrENXfxk8sDdNDw1WuuJbyllRgHBHYn45eSZeaCETy5X1EW94a6xZXHQHYi2g_YZg86U5dIu3TwfrJaZkR0q9FL7GwtWNzjAGSr-BfoTd-0IAZfTCT0T8r_3cA1DZKDOiMp9U4MAcLAolkJ7ne2lY996XETMphc44oGMaUegi3UkBZySaDt5U7S2PbCe-tpbYbaFSMH1WkjlyOxmqHBmU5xf3o16bpWtiSS1rUZxAtGso" />
+                            <div
+                                class="absolute top-md right-md bg-surface-dim/80 backdrop-blur border border-secondary p-md rounded-lg flex flex-col items-center">
+                                <span class="text-secondary font-display text-headline-md">84%</span>
+                                <span class="text-on-surface-variant text-[10px] uppercase font-bold">ATS Score</span>
+                            </div>
+                        </div>
+                        <div class="space-y-sm">
+                            <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+                                <div class="bg-secondary h-full w-[84%]"></div>
+                            </div>
+                            <p class="text-on-surface-variant font-label-sm text-center">Analizando coincidencia de
+                                palabras clave...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulo de Estadísticas -->
+    <section class="scroll-reveal py-xl bg-surface-container-lowest border-y border-outline-variant/20">
+        <div
+            class="max-w-container-max mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 gap-lg text-center md:text-left">
+            <div class="flex flex-col md:flex-row items-center gap-lg">
+                <div class="text-secondary">
+                    <span class="font-display text-[48px] font-bold block">98%</span>
+                    <span class="font-label-md text-label-md text-on-surface-variant">éxito en filtros ATS</span>
+                </div>
+                <div class="hidden md:block h-12 w-px bg-outline-variant/30 mx-lg"></div>
+                <div class="text-primary-fixed-dim">
+                    <span class="font-display text-[48px] font-bold block">+10k</span>
+                    <span class="font-label-md text-label-md text-on-surface-variant">Resúmenes Optimizados</span>
+                </div>
+            </div>
+            <div class="flex items-center justify-center md:justify-end gap-md">
+                <span class="text-on-surface-variant font-label-sm uppercase tracking-tighter opacity-60">Confiado por
+                    profesionales en</span>
+                <div class="flex gap-lg grayscale opacity-50">
+                    <span class="material-symbols-outlined">corporate_fare</span>
+                    <span class="material-symbols-outlined">domain</span>
+                    <span class="material-symbols-outlined">apartment</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bento Grid Renderizado Dinámicamente con Flujo @for -->
+    <section id="plantillas" class="scroll-reveal py-xl px-gutter max-w-container-max mx-auto scroll-mt-15">
+        <div class="text-center mb-xl space-y-sm">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Poderosamente Preciso</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Nuestro motor combina
+                procesamiento de lenguaje natural avanzado con las últimas reglas de reclutamiento.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-lg ">
+            @for (feat of features; track feat.title) {
+            <div
+                [class]="'glass-card rounded-xl p-xl flex flex-col justify-between group transition-all duration-300 ' + feat.colSpan">
+                <div>
+                    <div
+                        class="bg-primary-container/10 w-12 h-12 rounded-lg flex items-center justify-center text-primary-fixed-dim mb-lg border border-blue-500">
+                        <span class="material-symbols-outlined">{{ feat.icon }}</span>
+                    </div>
+                    <h3 class="font-headline-md text-headline-md mb-md text-on-surface">{{ feat.title }}</h3>
+                    <p class="font-body-md text-body-md text-on-surface-variant max-w-3xl ">{{
+                        feat.description }}</p>
+                </div>
+
+                <!-- Sub-bloque Condicional: Tags -->
+                @if (feat.tags) {
+                <div class="mt-xl grid grid-cols-2 md:grid-cols-4 gap-md">
+                    @for (tag of feat.tags; track tag) {
+                    <div class="p-md rounded-lg bg-surface-container-high/50 text-center">
+                        <span class="block font-bold text-primary">{{ tag.split(' ')[0] }}</span>
+                        <span class="text-[10px] text-outline">{{ tag.split(' ')[1] || 'Process' }}</span>
+                    </div>
+                    }
+                </div>
+                }
+
+                <!-- Sub-bloque Condicional: Barra de Progreso -->
+                @if (feat.hasProgress) {
+                <div class="mt-auto pt-lg">
+                    <div class="flex justify-between text-label-sm mb-xs">
+                        <span class="text-on-surface-variant">Compatibilidad</span>
+                        <span class="text-secondary">Óptima</span>
+                    </div>
+                    <div class="h-2 w-full bg-surface-container-high rounded-full overflow-hidden">
+                        <div class="bg-secondary h-full w-[92%] shadow-[0_0_8px_rgba(78,222,163,0.5)]"></div>
+                    </div>
+                </div>
+                }
+
+                <!-- Sub-bloque Condicional: Imágenes de Plantillas -->
+                @if (feat.hasImages) {
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-center mt-lg w-full">
+                    <a routerLink="/register"
+                        class="text-primary font-label-md flex items-center gap-sm group-hover:translate-x-2 transition-transform self-start md:self-center cursor-pointer">
+                        Ver catálogo de plantillas
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                    <div class="grid grid-cols-2 gap-md">
+                        <div
+                            class="aspect-[3/4] rounded-lg bg-surface-container-high border border-outline-variant/30 overflow-hidden hover:scale-105 transition-transform cursor-pointer">
+                            <img alt="Template 1" class="w-full h-full object-cover opacity-80"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFuYMhGdCu4Us8FK9eW9cXhy0hZTbnCGMGMcIOXGcYXc7eefkAQWiA50L3VAhNA2VzP9hHG7dKoicJkNIR5sqEqWzk4At8OS8Fmj8za0SVZVog47mYdHAN6BLJn4XN2zHm_KmWo6aW6lLpJcO44QLA45O-vVQL-Y_w_HUIP-otcKlC6wHwy4NU7Ve__b8Hh0ywpKO56lDmTVSgz-4FEZGoG9z95dFMcBA6dxbK-jCg21fsACqsTCzu3rYXBv-cX_1W-4rMvbbsTLc" />
+                        </div>
+                        <div
+                            class="aspect-[3/4] rounded-lg bg-surface-container-high border border-outline-variant/30 overflow-hidden hover:scale-105 transition-transform cursor-pointer">
+                            <img alt="Template 2" class="w-full h-full object-cover opacity-80"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBt2bsaa_j260m5HhuQbomaCy0NXRY6ptCTYtmmTPVT7YhtfJeDBiHh9pnHJsT9HfIQhu13rQalXIjN7sUC_lBl3Fu0tJjQdMSdTQfebjTf-YdM3z2AdozDNrdpHA60Nxv2EEKjNf0c29BjPSgqPPtbz0ix2fn8CvsC1QlbpEJoMnRgiujeZcQu2Os4AohSDFYkkEhFmEjA9MGPg-Vu5h9GEecIcUDu-bZooykVgnwhWRP_QFAcM6483WlRmVsRgVk7x7vbMfyrWw" />
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </section>
+
+    <!-- "Cómo Funciona" Section -->
+    <section id="comoFunciona" class="scroll-reveal py-xl bg-surface-dim overflow-hidden scroll-mt-15">
+        <div class="max-w-container-max mx-auto px-gutter">
+            <div class="text-center mb-16">
+                <h2 class="font-display text-[40px] md:text-[48px] text-on-surface mb-4">Tres pasos hacia el éxito</h2>
+                <div class="w-24 h-1 bg-primary mx-auto rounded-full opacity-50"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                <div
+                    class="hidden md:block absolute top-24 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary/20 to-transparent -z-0">
+                </div>
+
+                <div
+                    class="relative flex flex-col items-center text-center p-8 rounded-2xl glass-card border-primary/10 hover:border-primary/40 transition-all duration-300 group z-10">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-6 relative">
+                        <span
+                            class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-on-primary text-label-md flex items-center justify-center font-bold">1</span>
+                        <span
+                            class="material-symbols-outlined text-[32px] text-primary group-hover:scale-110 transition-transform">cloud_upload</span>
+                    </div>
+                    <h4 class="font-headline-md text-headline-md text-on-surface mb-4">Sube tu CV</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Sube tu archivo PDF o Word actual para
+                        iniciar el análisis estructural.</p>
+                </div>
+
+                <div
+                    class="relative flex flex-col items-center text-center p-8 rounded-2xl glass-card border-primary/10 hover:border-primary/40 transition-all duration-300 group z-10">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-6 relative">
+                        <span
+                            class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-on-primary text-label-md flex items-center justify-center font-bold">2</span>
+                        <span
+                            class="material-symbols-outlined text-[32px] text-primary group-hover:scale-110 transition-transform">content_paste_search</span>
+                    </div>
+                    <h4 class="font-headline-md text-headline-md text-on-surface mb-4">Pega el Empleo</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Introduce la descripción del puesto que
+                        te interesa para comparar requisitos.</p>
+                </div>
+
+                <div
+                    class="relative flex flex-col items-center text-center p-8 rounded-2xl glass-card border-primary/10 hover:border-primary/40 transition-all duration-300 group z-10">
+                    <div
+                        class="w-16 h-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center mb-6 relative">
+                        <span
+                            class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-on-primary text-label-md flex items-center justify-center font-bold">3</span>
+                        <span
+                            class="material-symbols-outlined text-[32px] text-primary group-hover:scale-110 transition-transform">fact_check</span>
+                    </div>
+                    <h4 class="font-headline-md text-headline-md text-on-surface mb-4">Checklist Final</h4>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Recibe tu lista de optimización paso a
+                        paso para alcanzar el 100%.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Precios -->
+    <section id="prices" class="scroll-reveal py-xl px-gutter max-w-[900px] mx-auto scroll-mt-10 py-xl">
+
+        <div class="text-center mb-xl space-y-sm">
+            <h2 class="font-headline-lg text-headline-lg text-on-surface">Planes que se ajustan a ti</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">
+                Elige el plan perfecto para tu búsqueda de empleo. Todos los planes incluyen una garantía de
+                satisfacción del 100%.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-xl items-stretch">
+            <div class="glass-card rounded-xl p-xl flex flex-col">
+                <div class="mb-lg">
+                    <h5 class="text-on-surface-variant font-label-sm uppercase tracking-widest mb-xs">Básico</h5>
+                    <div class="flex items-baseline gap-xs">
+                        <span class="font-display text-headline-lg">$0</span>
+                        <span class="text-on-surface-variant font-label-md">/siempre</span>
+                    </div>
+                </div>
+                <ul class="space-y-md mb-xl flex-grow">
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        3 análisis mensuales
+                    </li>
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        Análisis básico de palabras clave
+                    </li>
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        Exportación en PDF
+                    </li>
+                </ul>
+                <a routerLink="/register"
+                    class="w-full text-center border border-outline-variant text-on-surface py-md rounded-lg font-label-md hover:bg-surface-variant transition-colors cursor-pointer">Comenzar
+                    gratis</a>
+            </div>
+
+            <div
+                class="bg-surface-container-high rounded-xl p-xl flex flex-col border-2 border-primary relative overflow-hidden">
+                <div
+                    class="absolute top-0 right-0 bg-primary text-on-primary px-lg py-xs font-label-sm uppercase tracking-widest -rotate-45 translate-x-10 translate-y-4">
+                    Popular</div>
+                <div class="mb-lg">
+                    <h5 class="text-primary font-label-sm uppercase tracking-widest mb-xs">Pro Precision</h5>
+                    <div class="flex items-baseline gap-xs">
+                        <span class="font-display text-headline-lg">$19</span>
+                        <span class="text-on-surface-variant font-label-md">/mes</span>
+                    </div>
+                </div>
+                <ul class="space-y-md mb-xl flex-grow">
+                    <li class="flex items-center gap-sm font-label-md text-on-surface font-bold">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">verified</span>
+                        Análisis ilimitados
+                    </li>
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        AI Tailoring automático
+                    </li>
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        Acceso total a plantillas
+                    </li>
+                    <li class="flex items-center gap-sm font-label-md text-on-surface">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        Sugerencias de Redacción IA
+                    </li>
+                </ul>
+                <a routerLink="/register"
+                    class="w-full text-center bg-primary text-on-primary py-md rounded-lg font-label-md hover:brightness-110 transition-all shadow-lg cursor-pointer">
+                    Suscribirse ahora
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA de Cierre -->
+    <section class="scroll-reveal py-xl px-gutter">
+        <div
+            class="max-w-container-max mx-auto glass-card rounded-2xl p-xl md:p-xl text-center relative overflow-hidden border-primary/20">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5"></div>
+            <div class="relative z-10 space-y-md max-w-2xl mx-auto">
+                <h2 class="font-display text-headline-lg text-on-surface">¿Listo para el siguiente paso en tu carrera?
+                </h2>
+                <p class="font-body-md text-body-md text-on-surface-variant">Únete a más de 10,000 profesionales que ya
+                    están consiguiendo entrevistas en las mejores empresas tecnológicas.</p>
+                <div class="pt-lg">
+                    <a routerLink="/register"
+                        class="inline-block bg-primary text-on-primary font-label-md text-label-md px-xl py-lg rounded-xl hover:brightness-110 transition-all shadow-2xl cursor-pointer">Empieza
+                        a Optimizar Ahora</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

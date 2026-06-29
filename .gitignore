@@ -49,12 +49,22 @@ backend/.env
 *.env
 
 # Python (Backend)
+backend/.venv/
 backend/venv/
 backend/uploads/
 __pycache__/
 *.pyc
 
+# Agent Skills
+.agents/
+
+# Cache
+skills-lock.json
+
 # Angular (Frontend)
 frontend/node_modules/
 frontend/.angular/
 frontend/dist/
+skills-lock.json
+frontend/README.md
+.agents/

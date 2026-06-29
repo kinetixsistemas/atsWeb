@@ -1,0 +1,255 @@
+<div class="bg-background text-on-surface min-h-screen">
+  <app-side-nav></app-side-nav>
+  <div class="ml-64 min-h-screen relative">
+    <header class="fixed top-0 right-0 left-64 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
+      <div class="flex items-center flex-1 max-w-xl">
+        <div class="relative w-full">
+          <span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+          <input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-12 pr-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" placeholder="Search in settings..." type="text" />
+        </div>
+      </div>
+      <div class="flex items-center gap-lg">
+        <button class="relative text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+        </button>
+        <button class="text-on-surface-variant hover:text-primary transition-colors">
+          <span class="material-symbols-outlined">help</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="pt-24 px-lg pb-xl max-w-[1200px] mx-auto">
+      <section class="mb-xl relative overflow-hidden p-xl rounded-xl bg-surface-container-low border border-outline-variant">
+        <div class="absolute top-0 left-0 w-full h-full glow-overlay pointer-events-none"></div>
+        <div class="relative z-10">
+          <h2 class="font-headline-lg text-headline-lg text-primary mb-xs">Configuración</h2>
+          <p class="font-body-lg text-on-surface-variant max-w-2xl">Administra tu perfil, plan, método de pago y suscripción.</p>
+        </div>
+      </section>
+
+      <div class="flex gap-lg">
+        <nav class="w-64 shrink-0 space-y-xs">
+          @for (tab of tabs(); track tab.id) {
+          <button (click)="setActiveTab(tab.id)" class="w-full flex items-center gap-md px-lg py-md rounded-lg transition-all text-left" [ngClass]="activeTab() === tab.id ? 'bg-primary-container/10 text-primary border-r-4 border-primary font-medium' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-bright'">
+            <span class="material-symbols-outlined">{{ tab.icon }}</span>
+            <span class="font-body-md text-body-md">{{ tab.label }}</span>
+          </button>
+          }
+        </nav>
+
+        <div class="flex-1 min-w-0">
+          @if (activeTab() === 'perfil') {
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-xl">
+            <h3 class="font-headline-md text-on-surface mb-lg flex items-center gap-sm">
+              <span class="material-symbols-outlined text-primary">person</span>
+              Información del Perfil
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Nombre Completo</label>
+                <input [(ngModel)]="profileData().fullName" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="text" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Email</label>
+                <input [(ngModel)]="profileData().email" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="email" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Teléfono</label>
+                <input [(ngModel)]="profileData().phone" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="tel" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Ubicación</label>
+                <input [(ngModel)]="profileData().location" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="text" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Título Profesional</label>
+                <input [(ngModel)]="profileData().title" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="text" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">LinkedIn</label>
+                <input [(ngModel)]="profileData().linkedin" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="text" />
+              </div>
+              <div class="flex flex-col gap-sm">
+                <label class="text-sm text-on-surface-variant font-label-md">Portfolio</label>
+                <input [(ngModel)]="profileData().portfolio" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors" type="text" />
+              </div>
+              <div class="flex flex-col gap-sm md:col-span-2">
+                <label class="text-sm text-on-surface-variant font-label-md">Biografía</label>
+                <textarea [(ngModel)]="profileData().bio" class="bg-surface-dim border border-outline-variant rounded-lg px-md py-2 text-sm focus:outline-none focus:border-primary transition-colors min-h-[100px] resize-none" rows="4"></textarea>
+              </div>
+            </div>
+            <div class="flex justify-end mt-lg">
+              <button (click)="onUpdateProfile()" class="px-lg py-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors flex items-center gap-sm">
+                <span class="material-symbols-outlined text-sm">save</span>
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+          }
+
+          @if (activeTab() === 'plan') {
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-xl">
+            <h3 class="font-headline-md text-on-surface mb-lg flex items-center gap-sm">
+              <span class="material-symbols-outlined text-primary">rocket_launch</span>
+              Elegir Plan
+            </h3>
+            <p class="text-sm text-on-surface-variant mb-xl">Selecciona el plan que mejor se adapte a tus necesidades. Puedes cambiar o cancelar en cualquier momento.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+              @for (plan of plans(); track plan.id) {
+              <div class="rounded-xl border p-lg flex flex-col relative transition-all duration-300 hover:scale-[1.02]" [ngClass]="plan.highlighted ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10' : 'border-outline-variant bg-surface-dim'">
+                @if (plan.highlighted) {
+                <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-lg py-0.5 bg-primary text-on-primary text-xs rounded-full font-bold">Recomendado</div>
+                }
+                <div class="text-center mb-lg mt-sm">
+                  <h4 class="font-headline-md text-on-surface mb-xs">{{ plan.name }}</h4>
+                  <div class="flex items-baseline justify-center gap-xs">
+                    <span class="font-display text-display text-primary">${{ plan.price }}</span>
+                    <span class="text-sm text-on-surface-variant">/{{ plan.interval }}</span>
+                  </div>
+                </div>
+                <ul class="space-y-md mb-xl flex-1">
+                  @for (feature of plan.features; track $index) {
+                  <li class="flex items-start gap-sm text-sm">
+                    <span class="material-symbols-outlined text-success text-sm mt-0.5">check</span>
+                    <span class="text-on-surface-variant">{{ feature }}</span>
+                  </li>
+                  }
+                </ul>
+                <button (click)="onSelectPlan(plan.id)" class="w-full py-md rounded-lg font-label-md transition-all" [ngClass]="plan.highlighted ? 'bg-primary text-on-primary hover:bg-primary/90' : (currentPlan() === plan.id ? 'bg-secondary/10 text-secondary border border-secondary' : 'bg-surface-variant text-on-surface hover:bg-surface-bright')">
+                  @if (currentPlan() === plan.id) {
+                  Plan Actual
+                  } @else {
+                  Seleccionar
+                  }
+                </button>
+              </div>
+              }
+            </div>
+          </div>
+          }
+
+          @if (activeTab() === 'pago') {
+          <div class="space-y-lg">
+            <div class="bg-surface-container rounded-xl border border-outline-variant p-xl">
+              <h3 class="font-headline-md text-on-surface mb-lg flex items-center gap-sm">
+                <span class="material-symbols-outlined text-primary">credit_card</span>
+                Método de Pago
+              </h3>
+              @if (paymentMethod(); as pm) {
+              <div class="bg-surface-dim rounded-lg p-lg flex items-center justify-between">
+                <div class="flex items-center gap-lg">
+                  <div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center border border-outline-variant">
+                    <span class="material-symbols-outlined text-primary">credit_card</span>
+                  </div>
+                  <div>
+                    <p class="font-medium text-on-surface">{{ pm.brand }} terminada en {{ pm.last4 }}</p>
+                    <p class="text-sm text-on-surface-variant">Expira {{ pm.expiry }}</p>
+                  </div>
+                </div>
+                <button (click)="onRemovePaymentMethod()" class="text-error hover:text-error/80 transition-colors flex items-center gap-xs text-sm">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                  Eliminar
+                </button>
+              </div>
+              <div class="mt-md">
+                <button (click)="onAddPaymentMethod()" class="px-lg py-md bg-surface-variant text-on-surface rounded-lg font-label-md hover:bg-surface-bright transition-colors flex items-center gap-sm">
+                  <span class="material-symbols-outlined text-sm">add</span>
+                  Agregar otro método de pago
+                </button>
+              </div>
+              } @else {
+              <div class="text-center py-12">
+                <span class="material-symbols-outlined text-5xl text-on-surface-variant/30">credit_card_off</span>
+                <p class="text-sm text-on-surface-variant mt-md mb-lg">No tienes métodos de pago registrados.</p>
+                <button (click)="onAddPaymentMethod()" class="px-lg py-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors">Agregar método de pago</button>
+              </div>
+              }
+            </div>
+
+            <div class="bg-surface-container rounded-xl border border-outline-variant p-xl">
+              <h3 class="font-headline-md text-on-surface mb-lg flex items-center gap-sm">
+                <span class="material-symbols-outlined text-primary">receipt</span>
+                Historial de Facturas
+              </h3>
+              <div class="space-y-sm">
+                @for (inv of invoices(); track inv.id; let i = $index) {
+                <div class="flex items-center justify-between p-md bg-surface-dim rounded-lg">
+                  <div class="flex items-center gap-lg">
+                    <div class="w-10 h-10 bg-surface-container rounded-lg flex items-center justify-center border border-outline-variant">
+                      <span class="material-symbols-outlined text-sm text-on-surface-variant">receipt_long</span>
+                    </div>
+                    <div>
+                      <p class="font-medium text-sm text-on-surface">{{ inv.id }}</p>
+                      <p class="text-xs text-on-surface-variant">{{ inv.date }}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-lg">
+                    <span class="text-sm font-medium">${{ inv.amount.toFixed(2) }}</span>
+                    <span class="text-xs text-success bg-success/10 px-sm py-0.5 rounded-full capitalize">{{ inv.status }}</span>
+                    <button (click)="onDownloadInvoice(i)" class="text-primary hover:text-primary/80 transition-colors">
+                      <span class="material-symbols-outlined text-sm">download</span>
+                    </button>
+                  </div>
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+          }
+
+          @if (activeTab() === 'suscripcion') {
+          <div class="bg-surface-container rounded-xl border border-outline-variant p-xl">
+            <h3 class="font-headline-md text-on-surface mb-lg flex items-center gap-sm">
+              <span class="material-symbols-outlined text-primary">manage_accounts</span>
+              Estado de la Suscripción
+            </h3>
+            @if (subscriptionActive()) {
+            <div class="bg-success/5 border border-success/20 rounded-xl p-lg mb-lg">
+              <div class="flex items-center gap-lg">
+                <div class="w-14 h-14 bg-success/10 rounded-full flex items-center justify-center">
+                  <span class="material-symbols-outlined text-success text-3xl">verified</span>
+                </div>
+                <div>
+                  <h4 class="font-headline-md text-on-surface">Suscripción Activa</h4>
+                  <p class="text-sm text-on-surface-variant">Plan {{ currentPlan() | titlecase }} · Renovación el {{ subscriptionRenewal() }}</p>
+                </div>
+              </div>
+            </div>
+            @if (!cancelConfirmed()) {
+            <div class="bg-error/5 border border-error/20 rounded-xl p-lg">
+              <h4 class="font-headline-md text-error flex items-center gap-sm mb-sm">
+                <span class="material-symbols-outlined">warning_amber</span>
+                Cancelar Suscripción
+              </h4>
+              <p class="text-sm text-on-surface-variant mb-md">Al cancelar, perderás el acceso a las funcionalidades premium al final del período de facturación actual. Tus datos se conservarán por 30 días adicionales.</p>
+              <button (click)="onCancelSubscription()" class="px-lg py-md bg-error/10 text-error border border-error/20 rounded-lg font-label-md hover:bg-error/20 transition-colors flex items-center gap-sm">
+                <span class="material-symbols-outlined text-sm">cancel</span>
+                Cancelar Suscripción
+              </button>
+            </div>
+            } @else {
+            <div class="bg-surface-dim border border-outline-variant rounded-xl p-lg">
+              <h4 class="font-headline-md text-on-surface mb-sm">¿Estás seguro de cancelar?</h4>
+              <p class="text-sm text-on-surface-variant mb-md">Esta acción no se puede deshacer. Tu suscripción permanecerá activa hasta {{ subscriptionRenewal() }}.</p>
+              <div class="flex items-center gap-md">
+                <button (click)="onConfirmCancellation()" class="px-lg py-md bg-error text-on-error rounded-lg font-label-md hover:bg-error/90 transition-colors">Sí, cancelar suscripción</button>
+                <button (click)="cancelConfirmed.set(false)" class="px-lg py-md bg-surface-variant text-on-surface rounded-lg font-label-md hover:bg-surface-bright transition-colors">Mantener suscripción</button>
+              </div>
+            </div>
+            }
+            } @else {
+            <div class="bg-surface-dim border border-outline-variant rounded-xl p-lg text-center py-12">
+              <span class="material-symbols-outlined text-5xl text-on-surface-variant/30">cancel</span>
+              <h4 class="font-headline-md text-on-surface mt-md">Suscripción Cancelada</h4>
+              <p class="text-sm text-on-surface-variant mt-xs mb-lg">Tu suscripción ha sido cancelada. Puedes reactivarla en cualquier momento.</p>
+              <button (click)="onReactivateSubscription()" class="px-lg py-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-primary/90 transition-colors">Reactivar Suscripción</button>
+            </div>
+            }
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,350 @@
+<div class="bg-background text-on-surface min-h-screen">
+
+    <!-- SideNavBar -->
+    <app-side-nav></app-side-nav>
+
+    <!-- Main Content Area -->
+    <div class="ml-64 min-h-screen relative">
+
+        <!-- TopNavBar -->
+        <header
+            class="fixed top-0 right-0 left-64 h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-lg z-40">
+            <div class="flex items-center flex-1 max-w-xl">
+                <div class="relative w-full">
+                    <span
+                        class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant"
+                        data-icon="search">search</span>
+                    <input
+                        class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-12 pr-md py-2 text-sm focus:outline-none focus:border-primary transition-colors"
+                        placeholder="Search analyses, keywords, or JDs..." type="text" />
+                </div>
+            </div>
+            <div class="flex items-center gap-lg">
+                <button class="relative text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+                </button>
+                <button class="text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined" data-icon="help">help</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Canvas -->
+        <div class="pt-24 px-lg pb-xl max-w-[1200px] mx-auto">
+            <!-- Hero Header -->
+            <section
+                class="mb-xl relative overflow-hidden p-xl rounded-xl bg-surface-container-low border border-outline-variant">
+                <div class="absolute top-0 left-0 w-full h-full glow-overlay pointer-events-none"></div>
+                <div class="relative z-10">
+                    <h2 class="font-headline-lg text-headline-lg text-primary mb-xs">Optimization para ATS</h2>
+                    <p class="font-body-lg text-on-surface-variant max-w-2xl">Alinea tu perfil profesional con los
+                        requisitos del puesto utilizando nuestro motor de IA de alta precisión. Identifica lagunas de
+                        palabras clave y variaciones de puntuación técnica en tiempo real.</p>
+                </div>
+            </section>
+
+            <!-- Metrics Bar -->
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-lg mb-xl">
+                <div #card1 (mousemove)="onCardMouseMove($event, card1)"
+                    class="glass-card p-lg rounded-xl flex flex-col gap-xs relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors">
+                    </div>
+                    <span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">
+                        Porcentaje de compatibilidad
+                    </span>
+                    <div class="flex items-baseline gap-xs">
+                        <span class="font-display text-display text-primary">
+                            {{ analysisResult() ? analysisResult()?.match_percentage + '%' : '0%'}}
+                        </span>
+
+                        <!-- <span class="text-secondary text-sm font-bold flex items-center">
+                            <span class="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
+                            2.1%
+                        </span> -->
+                    </div>
+                </div>
+
+                <div #card2 (mousemove)="onCardMouseMove($event, card2)"
+                    class="glass-card p-lg rounded-xl flex flex-col gap-xs relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-secondary/5 rounded-full blur-2xl group-hover:bg-secondary/10 transition-colors">
+                    </div>
+                    <span class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Palabras
+                        Claves Faltantes</span>
+                    <div class="flex items-baseline gap-xs">
+                        <span class="font-display text-display text-secondary">
+                            {{ analysisResult() ? analysisResult()?.missing_skills?.length : 0 }}
+                        </span>
+                    </div>
+                </div>
+
+                <div #card3 (mousemove)="onCardMouseMove($event, card3)"
+                    class="glass-card p-lg rounded-xl flex flex-col gap-xs relative overflow-hidden group">
+                    <div
+                        class="absolute -right-4 -top-4 w-24 h-24 bg-tertiary/5 rounded-full blur-2xl group-hover:bg-tertiary/10 transition-colors">
+                    </div>
+                    <span
+                        class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Optimization
+                        Score</span>
+                    <div class="flex items-baseline gap-xs">
+                        <span class="font-display text-display text-tertiary">A+</span>
+                        <span class="text-on-surface-variant text-sm">Industry Lead</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Input Zone -->
+            <section class="bento-grid mb-xl">
+                <!-- Job Description Input -->
+                <div
+                    class="col-span-12 lg:col-span-7 bg-surface-container rounded-xl border border-outline-variant flex flex-col p-lg">
+                    <div class="flex items-center justify-between mb-md">
+                        <label class="font-headline-md text-on-surface flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary" data-icon="description">
+                                Description
+                            </span>
+                            Description del Trabajo
+                        </label>
+                        <span class="text-xs text-on-surface-variant" id="char-count">
+                            {{charCount() | number}} / 4,000
+                        </span>
+                    </div>
+                    <textarea
+                        class="flex-1 bg-surface-dim border border-outline-variant rounded-lg p-md text-body-md text-on-surface placeholder:text-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all min-h-[320px] resize-none font-code"
+                        maxlength="4000" [(ngModel)]="jobDescription" (input)="onInput()"
+                        placeholder="Pega la descripcion del trabajo para el cual deseas optimizar tu CV"
+                        [disabled]='analysisStatus() === "processing"'>{{ jobDescription() }}</textarea>
+                </div>
+
+                <!-- CV Upload Zone -->
+                <div class="col-span-12 lg:col-span-5 flex flex-col gap-lg">
+
+                    <!-- escuchamos los eventos de arrastre y soltar y Asociamos el label al input mediante el atributo 'for' -->
+                    <label for="cv-upload" (dragover)="$event.preventDefault();$event.stopPropagation();"
+                        (dragleave)="$event.preventDefault();$event.stopPropagation();" (drop)="onFileDropped($event)"
+                        class="flex-1 bg-surface-container rounded-xl border-2 border-dashed border-outline-variant hover:border-secondary/50 hover:bg-secondary/5 transition-all group flex flex-col items-center justify-center p-xl cursor-pointer">
+                        <div
+                            class="w-16 h-16 rounded-full bg-surface-bright flex items-center justify-center mb-md group-hover:scale-110 transition-transform">
+                            <span class="material-symbols-outlined text-secondary text-4xl"
+                                data-icon="cloud_upload">cloud_upload</span>
+                        </div>
+                        <h3 class="font-headline-md text-on-surface mb-xs">Curriculum Vitae</h3>
+                        <p class="text-on-surface-variant text-center text-sm mb-lg">
+                            @if (selectedFileName()) {
+                            <span class="text-secondary font-bold">{{ selectedFileName() }}</span>
+                            } @else {
+                            Drag and drop or click to upload<br />
+                            }
+                            <span class="opacity-60 text-xs">Supports PDF, DOCX (Max 10MB)</span>
+                        </p>
+
+                        <span
+                            class="px-lg py-sm bg-surface-variant text-on-surface rounded-lg font-label-md hover:bg-surface-bright transition-colors">
+                            {{ selectedFileName() ? 'Change File' : 'Select File' }}
+                        </span>
+                    </label>
+                    <input type="file" id="cv-upload" accept=".pdf,.docx" (change)="onFileSelected($event)" />
+
+
+                    <!-- Botón de Análisis -->
+                    <button (click)="onAnalyze()" [disabled]="analysisStatus() === 'processing' || charCount() === 0"
+                        class="w-full py-xl text-on-secondary rounded-xl font-headline-md shadow-lg transition-all flex items-center justify-center gap-md active:scale-95 disabled:opacity-50"
+                        [ngClass]="{
+                          'bg-secondary shadow-secondary/10 hover:shadow-secondary/20 hover:scale-[1.01]': analysisStatus() !== 'completed',
+                          'bg-surface-bright text-secondary border border-secondary': analysisStatus() === 'completed'
+                        }">
+
+                        @if (analysisStatus() === 'idle') {
+                        <span class="material-symbols-outlined font-bold">bolt</span>
+                        <span>Analyze CV</span>
+                        }
+
+                        @if (analysisStatus() === 'processing') {
+                        <svg class="animate-spin h-6 w-6 text-on-secondary" xmlns="http://www.w3.org/2000/svg"
+                            fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        <span>Processing Analysis...</span>
+                        }
+
+                        @if (analysisStatus() === 'completed') {
+                        <span class="material-symbols-outlined text-success">check_circle</span>
+                        <span>Analysis Complete</span>
+                        }
+                    </button>
+                </div>
+            </section>
+
+            <!-- resultados de la ia en tiempo real-->
+            @if (analysisResult(); as result) {
+            <section class='mb-xl grid grid-cols-1 md:grid-cols-2 gap-lg animate-fade-in border border-yellow-500'>
+                <!-- Fortalezas-->
+                <div class='glass-card p-lg reounded-xl border border-outline-variant bg-surface-container'>
+                    <h4 class="font-headline-md text-success flex items-center gap-xs mb-sm">
+                        <span class="material-symbols-outlined">thumb_up</span>
+                        Strengths Detected
+                    </h4>
+                    <ul class="list-disc pl-md space-y-xs text-sm text-on-surface-variant">
+                        @for (strength of result.strengths; track strength) {
+                        <li>{{ strength }}</li>
+                        }
+
+                    </ul>
+                </div>
+                <!-- Keywords Faltantes -->
+                <div class="glass-card p-lg rounded-xl border border-outline-variant bg-surface-container">
+                    <h4 class="font-headline-md text-error flex items-center gap-xs mb-sm">
+                        <span class="material-symbols-outlined">warning</span> Missing Target Keywords
+                    </h4>
+                    <div class="flex flex-wrap gap-xs">
+                        @for (keyword of result.missing_skills; track keyword) {
+                        <span
+                            class="bg-error-container text-on-error-container text-xs px-sm py-1 rounded font-mono font-bold">
+                            {{ keyword }}
+                        </span>
+                        } @empty {
+                        <p class="text-sm text-on-surface-variant">Perfect match! No keywords are missing.</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Recomendación Extendida -->
+                <div
+                    class="col-span-1 md:col-span-2 glass-card p-lg rounded-xl border border-outline-variant bg-surface-container">
+                    <h4 class="font-headline-md text-primary flex items-center gap-xs mb-xs">
+                        <span class="material-symbols-outlined">lightbulb</span> AI Optimization Strategy
+                    </h4>
+                    <p class="text-body-md italic text-on-surface">"{{ result.recommendations }}"</p>
+                </div>
+            </section>
+            }
+
+
+            <!-- Recent Activity -->
+            <section
+                class="border border-red-500 bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
+                <div
+                    class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-high/50">
+                    <h3 class="font-headline-md text-on-surface text-lg">Recent Analyses</h3>
+                    <a class="text-primary text-sm font-label-md hover:underline flex items-center gap-xs cursor-pointer" routerLink="/analyses">
+                        View All <span class="material-symbols-outlined text-sm"
+                            data-icon="arrow_forward">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="divide-y divide-outline-variant">
+                    <!-- Activity Item 1 -->
+                    <div
+                        class="px-lg py-lg flex flex-col md:flex-row md:items-center justify-between gap-md hover:bg-surface-bright/30 transition-colors">
+                        <div class="flex items-center gap-lg">
+                            <div
+                                class="w-12 h-12 rounded bg-surface-dim border border-outline-variant flex items-center justify-center">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="corporate_fare">corporate_fare</span>
+                            </div>
+                            <div>
+                                <h4 class="font-body-md font-bold text-on-surface">Senior Product Designer</h4>
+                                <p class="text-sm text-on-surface-variant">Quantum Systems Inc.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-xl">
+                            <div class="text-right">
+                                <p class="text-xs text-on-surface-variant uppercase tracking-tighter mb-xs">Match Score
+                                </p>
+                                <div class="flex items-center gap-sm">
+                                    <div class="w-24 h-2 bg-surface-dim rounded-full overflow-hidden">
+                                        <div class="bg-secondary h-full" style="width: 92%"></div>
+                                    </div>
+                                    <span class="font-code text-secondary font-bold">92%</span>
+                                </div>
+                            </div>
+                            <div class="text-right min-w-[80px]">
+                                <p class="text-xs text-on-surface-variant mb-xs">Processed</p>
+                                <p class="text-sm font-medium">2 hours ago</p>
+                            </div>
+                            <button class="p-sm hover:bg-surface-variant rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="more_vert">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Activity Item 2 -->
+                    <div
+                        class="px-lg py-lg flex flex-col md:flex-row md:items-center justify-between gap-md hover:bg-surface-bright/30 transition-colors">
+                        <div class="flex items-center gap-lg">
+                            <div
+                                class="w-12 h-12 rounded bg-surface-dim border border-outline-variant flex items-center justify-center">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="language">language</span>
+                            </div>
+                            <div>
+                                <h4 class="font-body-md font-bold text-on-surface">Lead Frontend Architect</h4>
+                                <p class="text-sm text-on-surface-variant">Nexus Cloud Solutions</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-xl">
+                            <div class="text-right">
+                                <p class="text-xs text-on-surface-variant uppercase tracking-tighter mb-xs">Match Score
+                                </p>
+                                <div class="flex items-center gap-sm">
+                                    <div class="w-24 h-2 bg-surface-dim rounded-full overflow-hidden">
+                                        <div class="bg-tertiary h-full" style="width: 76%"></div>
+                                    </div>
+                                    <span class="font-code text-tertiary font-bold">76%</span>
+                                </div>
+                            </div>
+                            <div class="text-right min-w-[80px]">
+                                <p class="text-xs text-on-surface-variant mb-xs">Processed</p>
+                                <p class="text-sm font-medium">1 day ago</p>
+                            </div>
+                            <button class="p-sm hover:bg-surface-variant rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="more_vert">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Activity Item 3 -->
+                    <div
+                        class="px-lg py-lg flex flex-col md:flex-row md:items-center justify-between gap-md hover:bg-surface-bright/30 transition-colors">
+                        <div class="flex items-center gap-lg">
+                            <div
+                                class="w-12 h-12 rounded bg-surface-dim border border-outline-variant flex items-center justify-center">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="terminal">terminal</span>
+                            </div>
+                            <div>
+                                <h4 class="font-body-md font-bold text-on-surface">Fullstack Engineer</h4>
+                                <p class="text-sm text-on-surface-variant">Stellar Data Fin</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-xl">
+                            <div class="text-right">
+                                <p class="text-xs text-on-surface-variant uppercase tracking-tighter mb-xs">Match Score
+                                </p>
+                                <div class="flex items-center gap-sm">
+                                    <div class="w-24 h-2 bg-surface-dim rounded-full overflow-hidden">
+                                        <div class="bg-secondary h-full" style="width: 88%"></div>
+                                    </div>
+                                    <span class="font-code text-secondary font-bold">88%</span>
+                                </div>
+                            </div>
+                            <div class="text-right min-w-[80px]">
+                                <p class="text-xs text-on-surface-variant mb-xs">Processed</p>
+                                <p class="text-sm font-medium">3 days ago</p>
+                            </div>
+                            <button class="p-sm hover:bg-surface-variant rounded-lg transition-colors">
+                                <span class="material-symbols-outlined text-on-surface-variant"
+                                    data-icon="more_vert">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

@@ -1,25 +1,49 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional
+from datetime import datetime
 
-# Definimos la estructura de respuesta de la IA (JSON) 
+
 class AnalysisRequest(BaseModel):
-    # validacion que el camppo coincida con las restriciones del frontend
     job_description: str = Field(
         ...,
-        description = 'Texto completo de la cavante o perfil solicitado',
-        min_length= 10,
-        max_length=4000
+        min_length=10,
+        max_length=4000,
+        description='Texto completo de la vacante o perfil solicitado'
     )
+    job_title: Optional[str] = Field(None, max_length=255, description='Título del puesto')
+    company_name: Optional[str] = Field(None, max_length=255, description='Nombre de la empresa')
 
     @field_validator('job_description')
     @classmethod
     def not_empty_whitespace(cls, v: str) -> str:
         if not v.strip():
-            raise ValueError('La descripción no puede estar vacía o contener solo espacios')
-            return vars
+            raise ValueError('La descripcion no puede estar vacia o contener solo espacios')
+        return v
+
 
 class AnalysisResponse(BaseModel):
-    match_percentage: float = Field(..., ge=0, le=100, description='porcentaje de compatibilidad entre el CV y la vacante') 
-    missing_keywords: list[str] = Field(..., description='Palabras claves faltantes en el CV')
-    strengths: list[str] = Field(..., description='Puntos fuertes detectados')
-    recomendations: str = Field(..., description='Sugerencias de optimización y mejora para el candidato')
+    match_percentage: int = Field(..., ge=0, le=100, description='Porcentaje de compatibilidad')
+    missing_skills: List[str] = Field(..., description='Habilidades faltantes en el CV')
+    strengths: List[str] = Field(..., description='Puntos fuertes detectados')
+    recommendations: str = Field(..., description='Sugerencias de optimizacion')
+
+
+class AnalysisDB(BaseModel):
+    id: str
+    user_id: str
+    job_description: str
+    job_title: Optional[str] = ''
+    company_name: Optional[str] = ''
+    cv_filename: str
+    cv_text: str = ''
+    match_percentage: int
+    missing_skills: List[str]
+    strengths: List[str]
+    recommendations: str
+    status: str = 'completed'
+    created_at: datetime
+
+
+class HistoryResponse(BaseModel):
+    analyses: List[AnalysisDB]
+    total: int
