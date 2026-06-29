@@ -10,12 +10,12 @@ class Settings(BaseSettings):
     version: str = "1.0.0"
     debug: bool = True
 
-    groq_api_key: str
+    groq_api_key: str = ''
     groq_model: str = "llama-3.3-70b-versatile"
 
-    supabase_url: str
-    supabase_service_key: str
-    supabase_anon_key: str
+    supabase_url: str = ''
+    supabase_service_key: str = ''
+    supabase_anon_key: str = ''
 
     upload_dir: str = "uploads"
     max_upload_size: int = 10 * 1024 * 1024
