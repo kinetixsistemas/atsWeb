@@ -63,7 +63,7 @@ async def analyze_cv_file(
             detail='No se pudo extraer texto del archivo. Asegurate de que no sea una imagen escaneada.'
         )
 
-    user_id = user.get('id', 'anonymous') if user else 'anonymous'
+    user_id = user.id if user else 'anonymous'
 
     # CLIENTE DE STORAGE: Usar get_supabase() correctamente
 
