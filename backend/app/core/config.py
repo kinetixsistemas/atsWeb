@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     max_upload_size: int = 10 * 1024 * 1024
     allowed_extensions: List[str] = ['.pdf', '.doc', '.docx']
 
-    cors_origins: List[str] = ["http://localhost:4200"]
+    cors_origins: List[str] = ["http://localhost:4200", "https://ats-web-bice.vercel.app"]
 
     rate_limit_per_minute: int = 10
 
