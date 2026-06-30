@@ -37,21 +37,17 @@ async def extract_cv_data_endpoint(
             detail='El contenido del archivo no coincide con su extension.'
         )
 
+    user_id = user.get('id', user.get('sub', '')) if user else "anonymous"
     safe_filename = f"{uuid.uuid4()}_{file.filename}"
-    local_path = os.path.join(settings.upload_dir, safe_filename)
-    os.makedirs(settings.upload_dir, exist_ok=True)
-    with open(local_path, 'wb') as f:
-        f.write(file_content)
+    storage_path = f"cvs/{user_id}/{safe_filename}"
 
-    user_id = user.get('id', user.get('sub', '')) if user else None
-    storage_path = ''
-
+    # Subida directa desde memoria a Supabase Storage
     try:
-        storage_path = f"cvs/{user_id}/{safe_filename}"
         get_supabase().storage.from_('cvs').upload(storage_path, file_content)
     except Exception as e:
         logger.warning('Supabase Storage upload failed: %s', str(e))
 
+    # Extracción directa desde memoria
     try:
         result = extract_cv_data(file_content, file.filename)
     except Exception as e:
@@ -60,7 +56,7 @@ async def extract_cv_data_endpoint(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=f'Error al procesar el CV: {str(e)}'
         )
-
+    
     try:
         get_supabase().table('cv_extractions').insert({
             'user_id': user_id,
