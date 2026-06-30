@@ -1,6 +1,7 @@
 import os
 import uuid
 import logging
+import io
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File, Form
 from typing import Optional
 from app.schemas.analysis import AnalysisResponse, AnalysisDB, HistoryResponse
@@ -22,6 +23,8 @@ async def analyze_cv_file(
     company_name: Optional[str] = Form(None),
     user: dict | None = Depends(get_optional_user),
 ):
+    
+    # Leer contenido del archivo
     file_content = await file.read()
 
     if len(file_content) > settings.max_upload_size:
@@ -42,7 +45,8 @@ async def analyze_cv_file(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='El contenido del archivo no coincide con su extension. Posible manipulacion.'
         )
-
+    
+    # Extraer texto (asegúrate de que trabaje en memoria y no intente escribir en disco)
     cv_text = extract_text_from_pdf(file_content)
     if not cv_text:
         raise HTTPException(
@@ -52,14 +56,22 @@ async def analyze_cv_file(
 
     user_id = user.get('id', 'anonymous') if user else 'anonymous'
 
+    # CLIENTE DE STORAGE: Usar get_supabase() correctamente
+
     try:
-        storage_path = f"cvs/{user_id}"
-        supabase.storage.from_('cvs').upload(storage_path, file_content)
+        storage_path = f"cvs/{user_id}/{uuid.uuid4()}_{file.filename}"
+        get_supabase().storage.from_('cvs').upload(storage_path, file_content)
     except Exception as e:
         logger.warning('Supabase Storage upload failed: %s', str(e))
 
+    # LLAMADA A GROQ
     try:
         result = analyze_cv_with_groq(job_description, cv_text)
+        # Validación defensiva por si Groq devuelve strings en vez de tipos limpios
+        if isinstance(result.get('match_percentage'), str):
+            # Limpia caracteres como '%' y convierte a entero
+            clean_pct = ''.join(filter(str.isdigit, result['match_percentage']))
+            result['match_percentage'] = int(clean_pct) if clean_pct else 0
     except Exception as e:
         logger.error('Groq analysis failed: %s', str(e))
         raise HTTPException(
