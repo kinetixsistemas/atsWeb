@@ -33,19 +33,28 @@ async def analyze_cv_file(
             detail='Archivo demasiado grande. Maximo 10MB permitido.'
         )
 
-    ext_ok = any(file.filename.lower().endswith(ext) for ext in settings.allowed_extensions)
-    if not ext_ok:
+    if file.filename.lower().endswith(('.doc', '.docx')):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Formato no soportado. Sube un archivo PDF o DOCX.'
         )
-
-    if not validate_file_magic(file_content, file.filename):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail='El contenido del archivo no coincide con su extension. Posible manipulacion.'
-        )
     
+    # Extraer texto en memoria
+    try:
+        cv_text = extract_text_from_pdf(file_content)
+    except Exception as e:
+        logger.error('Error extracting text from PDF: %s', str(e))
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail='No se pudo extraer texto del archivo. Asegurate de que no sea una imagen escaneada.'
+        )
+
+    if not cv_text or len(cv_text.strip()) == 0:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail='No se pudo extraer texto del archivo. Asegúrate de que no sea una imagen o un escaneo sin OCR.'
+            )
+        
     # Extraer texto (asegúrate de que trabaje en memoria y no intente escribir en disco)
     cv_text = extract_text_from_pdf(file_content)
     if not cv_text:

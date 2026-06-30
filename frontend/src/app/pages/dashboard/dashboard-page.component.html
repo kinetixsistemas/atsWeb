@@ -105,7 +105,7 @@
                             <span class="material-symbols-outlined text-primary" data-icon="description">
                                 Description
                             </span>
-                            Description del Trabajo
+                            Descripción del Trabajo
                         </label>
                         <span class="text-xs text-on-surface-variant" id="char-count">
                             {{charCount() | number}} / 4,000
@@ -113,9 +113,12 @@
                     </div>
                     <textarea
                         class="flex-1 bg-surface-dim border border-outline-variant rounded-lg p-md text-body-md text-on-surface placeholder:text-on-surface-variant/40 focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all min-h-[320px] resize-none font-code"
-                        maxlength="4000" [(ngModel)]="jobDescription" (input)="onInput()"
+                        maxlength="4000" 
+                        (value)="jobDescription()" 
+                        (input)="onDescriptionChanges($event)"
                         placeholder="Pega la descripcion del trabajo para el cual deseas optimizar tu CV"
-                        [disabled]='analysisStatus() === "processing"'>{{ jobDescription() }}</textarea>
+                        [disabled]='analysisStatus() === "processing"'>
+                    </textarea>
                 </div>
 
                 <!-- CV Upload Zone -->

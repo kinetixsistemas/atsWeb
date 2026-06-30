@@ -45,7 +45,14 @@ export class DashboardPageComponent {
   // --- Manejo del textarea ---
   protected onDescriptionChanges(event: Event): void {
     const target = event.target as HTMLTextAreaElement;
-    this.jobDescription.set(target.value);
+    let value = target.value;
+
+    // Limitar a 4000 caracteres
+    if (value.length > 4000) {
+      value = value.substring(0, 4000);
+      target.value = value; // Actualizamos el valor del textarea
+    }
+    this.jobDescription.set(value);
   }
 
   // Manejador para cuando hacen clic y seleccionan el archivo
