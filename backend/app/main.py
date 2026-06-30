@@ -28,7 +28,6 @@ _rate_limit_store: dict[str, list[float]] = {}
 async def lifespan(app: FastAPI):
     logger.info('Starting %s v%s', settings.app_name, settings.version)
     _rate_limit_store.clear()
-    os.makedirs(settings.upload_dir, exist_ok=True)
     yield
     logger.info('Shutting down')
 
