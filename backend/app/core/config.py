@@ -17,7 +17,6 @@ class Settings(BaseSettings):
     supabase_service_key: str = ''
     supabase_anon_key: str = ''
 
-    upload_dir: str = "uploads"
     max_upload_size: int = 10 * 1024 * 1024
     allowed_extensions: List[str] = ['.pdf', '.doc', '.docx']
 
