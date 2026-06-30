@@ -8,7 +8,7 @@ import { AnalysisResponse, HistoryResponse, AnalysisDB } from '../interfaces/ana
 })
 export class AnalysisService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://127.0.0.1:8000/api/v1';
+  private readonly apiUrl = '/api/v1';
 
   analyzeWithFile(
     jobDescription: string,

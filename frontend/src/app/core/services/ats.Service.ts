@@ -11,7 +11,7 @@ import { AtsExtractedData } from '../interfaces/ats.interface';
 export class AtsService {
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
-  private readonly apiUrl = 'http://localhost:8000/api/v1/cv-extractions';
+  private readonly apiUrl ='/api/v1/cv-extractions';
 
   private headers(): HttpHeaders {
     const token = this.auth.getSessionToken();
