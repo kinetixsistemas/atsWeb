@@ -50,16 +50,10 @@ async def analyze_cv_file(
             detail='No se pudo extraer texto del archivo. Asegurate de que no sea una imagen escaneada.'
         )
 
-    safe_filename = f"{uuid.uuid4()}_{file.filename}"
-    local_path = os.path.join(settings.upload_dir, safe_filename)
-    os.makedirs(settings.upload_dir, exist_ok=True)
-    with open(local_path, 'wb') as f:
-        f.write(file_content)
-
     user_id = user.get('id', 'anonymous') if user else 'anonymous'
 
     try:
-        storage_path = f"cvs/{user_id}/{safe_filename}"
+        storage_path = f"cvs/{user_id}"
         supabase.storage.from_('cvs').upload(storage_path, file_content)
     except Exception as e:
         logger.warning('Supabase Storage upload failed: %s', str(e))
